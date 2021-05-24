@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 配置 SQL 映射
+        namespace:命名空间.
+            1.随便写。
+            2.Mapper 接口开发，不能随便写，必须按照规定来写。
+ -->
+<mapper namespace="com.zyj.mapper.UserMapper">
+
+    <!-- public List<User> getAllUser(User user); -->
+    <select id="getAllUser" resultType="com.zyj.bean.User">
+        select *
+        from user
+    </select>
+
+    <!-- public boolean addUser(User user); -->
+    <insert id="addUser">
+        insert into user(name, password) values (#{name}, #{password})
+    </insert>
+
+    <!-- public boolean deleteUserById(Integer id);     -->
+    <delete id="deleteUserById">
+        delete from user
+        where id = #{id}
+    </delete>
+
+    <!-- public boolean updateUser(User user); -->
+    <update id="updateUser" >
+        update user
+        set name = #{name}, password = #{password}
+        where id = #{id}
+    </update>
+
+</mapper>
