@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyj.mapper.DepartmentMapperResultMap">
+
+    <!-- public Department getDeptAndEmp(Integer id); -->
+    <select id="getDeptAndEmp" resultMap="myDeptAndEmp">
+        select d.id did, d.dept_name, e.id eid, e.last_name, e.gender, e.email, e.d_id edid
+        from dept d left outer join employee e
+        on d.id = e.d_id
+        where d.id = #{id}
+    </select>
+    <resultMap id="myDeptAndEmp" type="com.zyj.bean.Department">
+        <id column="did" property="id"></id>
+        <result column="dept_name" property="deptName"/>
+        <collection property="employees" ofType="com.zyj.bean.Employee">
+            <id column="eid" property="id"/>
+            <result column="last_name" property="lastName"/>
+            <result column="gender" property="gender"/>
+            <result column="email" property="email"/>
+            <result column="edid" property="did"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 分布查询 -->
+    <!-- public Department getDeptAndEmployeesStep(Integer id); -->
+    <select id="getDeptAndEmployeesStep" resultMap="myDeptAndEmployeesStep">
+        select id, dept_name deptName from dept where id = #{id}
+    </select>
+    <resultMap id="myDeptAndEmployeesStep" type="com.zyj.bean.Department">
+        <id column="id" property="id"></id>
+        <result column="deptName" property="deptName"/>
+        <collection property="employees"
+                select="com.zyj.mapper.EmployeeMapperResultMap.getEmployeesByDid"
+                column="id">
+        </collection>
+    </resultMap>
+
+</mapper>

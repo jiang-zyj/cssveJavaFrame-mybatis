@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyj.mapper.EmployeeMapperDynamicSQL">
+    <update id="updateEmpByConditionSet">
+        update employee
+        <set>
+            <if test="lastName != null">
+                last_name = #{lastName},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="gender == 0 or gender == 1">
+                gender = #{gender}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 使用动态SQL -->
+
+    <!-- public List<Employee> getEmployeesByConditionIfWhere(Employee employee); -->
+    <select id="getEmployeesByConditionIfWhere" resultType="com.zyj.bean.Employee">
+        select id, last_name, email, gender
+        from employee
+        <where>    <!-- 在 SQL 语句中提供 where 关键字，用于解决第一个出现的 and 或者是 or 的问题 -->
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="lastName != null &amp;&amp; lastName != ''">
+                and last_name = #{lastName}
+            </if>
+            <if test="email != null and email.trim() != &quot;&quot;">
+                and email = #{email}
+            </if>
+            <if test="gender == 0 or gender == 1">
+                and gender = #{gender}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getEmployeesByConditionIfTrim" resultType="com.zyj.bean.Employee">
+        select id, last_name, email, gender
+        from employee
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="id != null">
+                id = #{id} and
+            </if>
+            <if test="lastName != null &amp;&amp; lastName != ''">
+                last_name = #{lastName} and
+            </if>
+            <if test="email != null and email.trim() != &quot;&quot;">
+                email = #{email} and
+            </if>
+            <if test="gender == 0 or gender == 1">
+                gender = #{gender}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getEmployeesByConditionChoose" resultType="com.zyj.bean.Employee">
+        select id, last_name, email, gender
+        from employee
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+                <when test="lastName != null">
+                    last_name = #{lastName}
+                </when>
+                <when test="email != null and email.trim() != &quot;&quot;">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    gender = #{gender}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+    <select id="getEmployeesByIds" resultType="com.zyj.bean.Employee">
+        <include refid="selectEmployee"></include>
+        <where>
+            <foreach collection="ids" item="id" open="id in (" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <sql id="selectEmployee">
+        select
+            id,
+            last_name,
+            email,
+            gender
+        from employee
+    </sql>
+</mapper>

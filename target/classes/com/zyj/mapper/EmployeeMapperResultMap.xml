@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyj.mapper.EmployeeMapperResultMap">
+
+    <!-- public List<Employee> getEmployeesByDid(Integer id); -->
+    <select id="getEmployeesByDid" resultType="com.zyj.bean.Employee">
+        <include refid="selectEmployeeSQL"></include>
+        from employee where d_id = #{did}
+    </select>
+
+    <!-- 抽取可重用的SQL片段
+            搭配语句中的 <include> 标签
+     -->
+    <sql id="selectEmployeeSQL">
+        select id, last_name lastName, email, gender
+    </sql>
+
+</mapper>
