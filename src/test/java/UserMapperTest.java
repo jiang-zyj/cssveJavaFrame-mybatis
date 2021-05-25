@@ -38,6 +38,11 @@ public class UserMapperTest {
         }
     }
 
+    @After
+    public void after() {
+        sqlSession.close();
+    }
+
     @Test
     public void queryAllUser() {
         List<User> allUser = mapper.getAllUser();
@@ -81,9 +86,6 @@ public class UserMapperTest {
         System.out.println(userPageInfo);
     }
 
-    @After
-    public void after() {
-        sqlSession.close();
-    }
+
 
 }

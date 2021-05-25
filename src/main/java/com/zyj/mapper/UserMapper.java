@@ -1,5 +1,6 @@
 package com.zyj.mapper;
 
+import com.zyj.bean.Department;
 import com.zyj.bean.User;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface UserMapper {
     public boolean deleteUserById(Integer id);
 
     public boolean updateUser(User user);
+
 }
