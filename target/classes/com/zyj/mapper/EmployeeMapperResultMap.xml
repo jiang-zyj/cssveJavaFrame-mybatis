@@ -7,14 +7,49 @@
     <!-- public List<Employee> getEmployeesByDid(Integer id); -->
     <select id="getEmployeesByDid" resultType="com.zyj.bean.Employee">
         <include refid="selectEmployeeSQL"></include>
-        from employee where d_id = #{did}
+        where d_id = #{did}
+    </select>
+    <select id="getEmpAndDept" resultMap="myEmpAndDept">
+        select e.id eid, e.last_name, e.email, e.gender, d.id did, d.dept_name
+        from employee e, dept d
+        where e.d_id = d.id and e.id = #{id}
     </select>
 
+    <resultMap id="myEmpAndDept" type="com.zyj.bean.Employee">
+        <id column="eid" property="id"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="email"/>
+        <result column="gender" property="gender"/>
+
+        <association property="dept" javaType="com.zyj.bean.Department">
+            <id column="did" property="id"/>
+            <result column="dept_name" property="deptName"/>
+        </association>
+
+    </resultMap>
+    <!-- 使用 association 进行分步查询 -->
+    <select id="getEmpAndDeptStep" resultMap="myEmpAndDeptStep">
+        <include refid="selectEmployeeSQL"></include>
+        where id = #{id}
+    </select>
+
+    <resultMap id="myEmpAndDeptStep" type="com.zyj.bean.Employee">
+        <id column="id" property="id"/>
+        <result column="last_name" property="lastName"/>
+        <result column="email" property="email"/>
+        <result column="gender" property="gender"/>
+
+        <association property="dept"
+                     select="com.zyj.mapper.DepartmentMapperResultMap.getDeptById"
+                     column="{did}"
+                     fetchType="eager">
+        </association>
+    </resultMap>
     <!-- 抽取可重用的SQL片段
             搭配语句中的 <include> 标签
      -->
     <sql id="selectEmployeeSQL">
-        select id, last_name lastName, email, gender
+        select id, last_name, email, gender from employee
     </sql>
 
 </mapper>

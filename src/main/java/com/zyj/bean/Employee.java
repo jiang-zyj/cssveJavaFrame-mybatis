@@ -1,5 +1,7 @@
 package com.zyj.bean;
 
+import java.util.List;
+
 /**
  * @ClassName Employee
  * @Auther: YaJun
@@ -18,6 +20,18 @@ public class Employee {
     private Integer gender;
 
     private Integer did;
+
+
+    private Department dept;
+
+
+    public Department getDept() {
+        return dept;
+    }
+
+    public void setDept(Department dept) {
+        this.dept = dept;
+    }
 
     public Integer getId() {
         return id;
@@ -70,6 +84,7 @@ public class Employee {
                 ", email='" + email + '\'' +
                 ", gender=" + gender +
                 ", did=" + did +
+                ", dept=" + dept +
                 '}';
     }
 }

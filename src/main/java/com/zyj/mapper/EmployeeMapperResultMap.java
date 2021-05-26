@@ -15,4 +15,9 @@ public interface EmployeeMapperResultMap {
 
     public List<Employee> getEmployeesByDid(Integer id);
 
+    public Employee getEmpAndDept(Integer id);
+
+    public Employee getEmpAndDeptStep(Integer id);
+
+
 }

@@ -11,6 +11,8 @@ import com.zyj.bean.Department;
  */
 public interface DepartmentMapperResultMap {
 
+    public Department getDeptById(Integer id);
+
     public Department getDeptAndEmp(Integer id);
 
     public Department getDeptAndEmployeesStep(Integer id);

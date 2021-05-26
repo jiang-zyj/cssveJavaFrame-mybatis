@@ -1,5 +1,7 @@
 package com.zyj.bean;
 
+import java.util.List;
+
 /**
  * @ClassName User
  * @Auther: YaJun
@@ -14,6 +16,17 @@ public class User {
     private String name;
 
     private String password;
+
+    private List<Menu> menus;
+
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
 
     public Integer getId() {
         return id;
@@ -48,6 +61,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", menus=" + menus +
                 '}';
     }
 }

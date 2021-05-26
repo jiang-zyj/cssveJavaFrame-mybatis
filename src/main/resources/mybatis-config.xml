@@ -19,6 +19,12 @@
         &lt;!&ndash; 映射下划线到驼峰命名 &ndash;&gt;
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>-->
+    <settings>
+        <!-- 开启延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 配置按需加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
 
     <!-- 3. typeAliases: 别名处理
                 <typeAlias>: 给某个 java 类型去别名
