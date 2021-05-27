@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyj.mapper.UserMenuMapperResultMap">
+
+    <resultMap id="myUserAndMenu" type="com.zyj.bean.User">
+        <id column="id" property="id"/>
+        <result column="uname" property="name"/>
+        <result column="password" property="password"/>
+        <collection property="menus" ofType="com.zyj.bean.Menu">
+            <id column="mid" property="mid"/>
+            <result column="mname" property="mName"/>
+            <result column="mdesc" property="mDesc"/>
+        </collection>
+    </resultMap>
+
+    <select id="getAllUserAndMenu" resultMap="myUserAndMenu">
+        select
+            u.id, u.name uname, u.password, m.m_id mid, m.m_name mname, m.m_desc mdesc
+        from
+            user u left outer join usermenu um on u.id = um.uid
+            left outer join menu m on um.mid = m.m_id
+
+    </select>
+</mapper>
